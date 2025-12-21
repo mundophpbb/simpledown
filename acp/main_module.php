@@ -1,4 +1,9 @@
 <?php
+/**
+ * @package mundophpbb/simpledown
+ * @copyright (c) 2025 Mundo phpBB
+ * @license http://opensource.org/licenses/gpl-license.php GNU General Public License, version 2.
+ */
 namespace mundophpbb\simpledown\acp;
 
 use phpbb\config\config;
@@ -16,8 +21,16 @@ class main_module
     {
         global $phpbb_container, $user;
 
+        // Carrega o idioma comum (frontend)
         $user->add_lang_ext('mundophpbb/simpledown', 'common');
-        $user->add_lang_ext('mundophpbb/simpledown', 'info_acp_simpledown');
+
+        // FORÇA o carregamento do inglês como base (fallback)
+        $user->add_lang_ext('mundophpbb/simpledown', 'acp/info_acp_simpledown', 'en');
+
+        // Carrega o idioma do usuário atual (se diferente do inglês)
+        if ($user->lang['CODE'] !== 'en') {
+            $user->add_lang_ext('mundophpbb/simpledown', 'acp/info_acp_simpledown');
+        }
 
         /** @var \mundophpbb\simpledown\controller\admin_controller $admin_controller */
         $admin_controller = $phpbb_container->get('mundophpbb.simpledown.admin_controller');

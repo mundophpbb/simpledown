@@ -1,25 +1,29 @@
 {
     "name": "mundophpbb/simpledown",
     "type": "phpbb-extension",
-    "description": "Sistema simples de downloads com ACP para uploads e categorias",
-    "homepage": "",
+    "description": "Simple Download System with ACP for uploads and categories",
+    "homepage": "https://mundophpbb.com.br",
     "version": "1.0.0",
-    "time": "2025-12-15",
-    "license": "GPL-2.0-only",
+    "license": "GPL-2.0-or-later",
     "authors": [
         {
-            "name": "Grok Assisted",
+            "name": "Chico Gois",
+            "email": "chicogois@gmail.com",
+            "homepage": "https://mundophpbb.com.br",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": ">=7.1.3",
-        "composer/installers": "~1.0"
+        "php": ">=7.4",
+        "composer/installers": "^1.0 || ^2.0"
+    },
+    "require-dev": {
+        "phpbb/phpbb-core": "dev-master"
     },
     "extra": {
-        "display-name": "Simple Download",
+        "display-name": "Simple Download System",
         "soft-require": {
-            "phpbb/phpbb": ">=3.3.0,<3.4.0@dev"
+            "phpbb/phpbb": ">=3.3.0,<4.0.0@dev"
         }
     }
 }

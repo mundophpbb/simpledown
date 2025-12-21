@@ -3,47 +3,62 @@
    ======================================== */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css');
 
-/* Container Principal - Mais compacto */
+/* Variáveis */
+:root {
+    --primary: #3498db;
+    --primary-dark: #2980b9;
+    --danger: #e74c3c;
+    --danger-dark: #c0392b;
+    --bg: #ffffff;
+    --light-bg: #f9fbfc;
+    --border: #e1e8ed;
+    --text: #2c3e50;
+    --text-light: #7f8c8d;
+    --shadow: 0 3px 10px rgba(0,0,0,0.04);
+    --radius: 12px;
+}
+
+/* Container Principal */
 #acp_simpledown {
     font-family: 'Bai Jamjuree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     margin: 0 auto;
     padding: 15px;
-    background: #ffffff;
-    border-radius: 12px;
+    background: var(--bg);
+    border-radius: var(--radius);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
 }
 
-/* Fieldsets - Mais compactos */
+/* Fieldsets */
 #acp_simpledown fieldset {
-    background: #f9fbfc;
-    border: 1px solid #e1e8ed;
-    border-radius: 12px;
+    background: var(--light-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
     padding: 18px;
     margin-bottom: 20px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+    box-shadow: var(--shadow);
 }
 
 /* Legendas */
 #acp_simpledown legend {
     font-size: 1.3em;
     font-weight: 700;
-    color: #2c3e50;
+    color: var(--text);
     padding: 0 16px;
-    background: #ffffff;
+    background: var(--bg);
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-/* Labels */
+/* Labels e descrições */
 #acp_simpledown dl dt label {
     font-weight: 600;
-    color: #34495e;
+    color: var(--text);
     margin-bottom: 5px;
     display: block;
 }
 #acp_simpledown dl dt span {
     font-size: 0.85em;
-    color: #7f8c8d;
+    color: var(--text-light);
     font-style: italic;
 }
 
@@ -54,9 +69,9 @@
     width: auto;
     max-width: 600px;
     padding: 10px 14px;
-    border: 1px solid #dcdfe6;
+    border: 1px solid var(--border);
     border-radius: 8px;
-    background: #ffffff;
+    background: var(--bg);
     font-size: 1em;
     transition: all 0.3s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05) inset;
@@ -64,42 +79,66 @@
 #acp_simpledown input[type="text"]:focus,
 #acp_simpledown textarea:focus,
 #acp_simpledown select:focus {
-    border-color: #3498db;
+    border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
     outline: none;
 }
 
-/* Input File */
-#acp_simpledown input[type="file"] {
-    padding: 14px;
-    background: #ecf0f1;
-    border: 2px dashed #bdc3c7;
-    border-radius: 10px;
+/* Custom file upload - Visual do anexo */
+.custom-file-upload {
+    position: relative;
     width: 100%;
     max-width: 600px;
-    cursor: pointer;
-}
-#acp_simpledown input[type="file"]:hover {
-    background: #d6e4ff;
-    border-color: #3498db;
-}
-#acp_simpledown input[type="file"]::file-selector-button {
-    padding: 10px 24px;
-    background: #3498db;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    margin-right: 16px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-#acp_simpledown input[type="file"]::file-selector-button:hover {
-    background: #2980b9;
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    background: #ecf0f1;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: background 0.3s, border-color 0.3s;
 }
 
-/* Botões */
+.custom-file-upload:hover {
+    background: #d6e4ff;
+    border-color: var(--primary);
+}
+
+.custom-file-upload input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.custom-file-label {
+    background: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+    white-space: nowrap;
+}
+
+.custom-file-label:hover {
+    background: var(--primary-dark);
+}
+
+.file-name-display {
+    color: var(--text-light);
+    font-style: italic;
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Botões gerais */
 #acp_simpledown .submit-buttons {
     text-align: center;
     margin: 20px 0;
@@ -107,7 +146,7 @@
 #acp_simpledown .button1,
 #acp_simpledown input[type="submit"].button1 {
     padding: 12px 28px;
-    background: linear-gradient(to bottom, #3498db, #2980b9);
+    background: linear-gradient(to bottom, var(--primary), var(--primary-dark));
     border: none;
     border-radius: 10px;
     color: white;
@@ -116,11 +155,14 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     box-shadow: 0 5px 12px rgba(52, 152, 219, 0.3);
+    cursor: pointer;
 }
 #acp_simpledown .button1:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 18px rgba(52, 152, 219, 0.4);
 }
+
+/* Botão Excluir - Vermelho forte */
 #acp_simpledown .button2,
 #acp_simpledown a.button2 {
     padding: 10px 24px;
@@ -132,73 +174,82 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin: 0 6px;
+    cursor: pointer;
 }
 #acp_simpledown .button2:hover {
     background: #7f8c8d;
 }
 #acp_simpledown .button2[value="Excluir"],
 #acp_simpledown a.button2[href*="delete"] {
-    background: #e74c3c;
+    background: var(--danger);
+    color: white;
 }
 #acp_simpledown .button2[value="Excluir"]:hover,
 #acp_simpledown a.button2[href*="delete"]:hover {
-    background: #c0392b;
+    background: var(--danger-dark);
 }
 
-/* Tabela - Mais compacta */
+/* Botões na tabela - Compactos e com cor correta */
+#acp_simpledown .compact-table .button2 {
+    padding: 6px 14px;
+    font-size: 0.9em;
+    margin: 0 6px;
+    min-width: 80px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: #95a5a6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+#acp_simpledown .compact-table .button2:hover {
+    background: #7f8c8d;
+}
+#acp_simpledown .compact-table .button2[value="Excluir"],
+#acp_simpledown .compact-table a.button2[href*="delete"] {
+    background: var(--danger);
+}
+#acp_simpledown .compact-table .button2[value="Excluir"]:hover,
+#acp_simpledown .compact-table a.button2[href*="delete"]:hover {
+    background: var(--danger-dark);
+}
+
+/* Tabela - Com barras verticais */
 #acp_simpledown .table1 {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    border-radius: 12px;
+    border-radius: var(--radius);
     overflow: hidden;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
     margin-top: 15px;
 }
 #acp_simpledown .table1 th {
-    background: linear-gradient(to bottom, #3498db, #2980b9);
+    background: linear-gradient(to bottom, var(--primary), var(--primary-dark));
     color: white;
     padding: 14px 18px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.6px;
     font-size: 0.9em;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
 }
 #acp_simpledown .table1 td {
     padding: 14px 18px;
-    background: #ffffff;
+    background: var(--bg);
     border-bottom: 1px solid #ecf0f1;
+    border-right: 1px solid var(--border); /* Barra vertical cinza */
 }
-#acp_simpledown .table1 tr:nth-child(even) td {
-    background: #f8fbff;
-}
-/* Bordas da tabela */
-#acp_simpledown .table1 td,
-#acp_simpledown .table1 th {
-    border-left: 1px solid #e0e0e0;
-    border-right: 1px solid #e0e0e0;
-}
-#acp_simpledown .table1 th:first-child,
-#acp_simpledown .table1 td:first-child {
-    border-left: none;
-}
-#acp_simpledown .table1 th:last-child,
-#acp_simpledown .table1 td:last-child {
+#acp_simpledown .table1 td:last-child,
+#acp_simpledown .table1 th:last-child {
     border-right: none;
 }
-/* Nome do arquivo real na tabela */
-#acp_simpledown .table1 small {
-    display: block;
-    margin-top: 6px;
-    font-style: italic;
-    color: #999999;
-    font-size: 0.85em;
+#acp_simpledown .table1 tr:hover td {
+    background: #f0f7ff;
 }
-#acp_simpledown .table1 small i {
-    margin-right: 6px;
-    font-size: 1.1em;
-}
-/* Ícones coloridos por extensão */
+
+/* Ícones por extensão */
 #acp_simpledown .table1 i.fa-file-pdf { color: #e74c3c; }
 #acp_simpledown .table1 i.fa-file-image { color: #3498db; }
 #acp_simpledown .table1 i.fa-file-word { color: #2980b9; }
@@ -209,17 +260,8 @@
 #acp_simpledown .table1 i.fa-file-video { color: #c0392b; }
 #acp_simpledown .table1 i.fa-file-lines { color: #7f8c8d; }
 #acp_simpledown .table1 i.fa-file { color: #95a5a6; }
-/* Botões na tabela */
-#acp_simpledown .compact-table .button2 {
-    padding: 6px 14px;
-    font-size: 0.9em;
-    margin: 0 6px;
-    min-width: 80px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
 
-/* Avisos de Segurança - Duas colunas compactas na mesma linha */
+/* Avisos de Segurança */
 #acp_simpledown .security-notices {
     display: flex;
     gap: 15px;
@@ -232,57 +274,20 @@
     padding: 12px 16px;
     border-radius: 8px;
     border-left: 5px solid;
-    background: #fff;
+    background: var(--bg);
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     font-size: 0.92em;
     line-height: 1.4;
     min-height: 80px;
 }
-#acp_simpledown .warning-box {
-    border-color: #f44336;
-    background: #ffebee;
-}
-#acp_simpledown .allowed-box {
-    border-color: #4caf50;
-    background: #e8f5e9;
-}
-#acp_simpledown .warning-box strong,
-#acp_simpledown .allowed-box strong {
-    color: inherit;
-    font-size: 1.08em;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-}
-#acp_simpledown .warning-box strong i,
-#acp_simpledown .allowed-box strong i {
-    font-size: 1.25em;
-}
-/* Evita quebras indesejadas e mantém texto compacto */
-#acp_simpledown .warning-box p,
-#acp_simpledown .allowed-box p {
-    margin: 0;
-    white-space: normal;
-    word-wrap: break-word;
-}
+#acp_simpledown .warning-box { border-color: #f44336; background: #ffebee; }
+#acp_simpledown .allowed-box { border-color: #4caf50; background: #e8f5e9; }
 
 /* Responsivo */
 @media (max-width: 768px) {
-    #acp_simpledown {
-        padding: 12px;
-    }
-    #acp_simpledown .table1 th,
-    #acp_simpledown .table1 td {
-        padding: 10px 12px;
-        font-size: 0.85em;
-    }
-    #acp_simpledown fieldset {
-        padding: 15px;
-        margin-bottom: 18px;
-    }
-    #acp_simpledown .security-notices {
-        flex-direction: column;
-        gap: 12px;
-    }
+    #acp_simpledown { padding: 12px; }
+    #acp_simpledown .table1 th, #acp_simpledown .table1 td { padding: 10px 12px; font-size: 0.85em; }
+    #acp_simpledown fieldset { padding: 15px; margin-bottom: 18px; }
+    #acp_simpledown .security-notices { flex-direction: column; gap: 12px; }
+    .custom-file-upload { flex-direction: column; gap: 10px; align-items: flex-start; }
 }

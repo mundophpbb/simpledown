@@ -1,10 +1,7 @@
 <!-- INCLUDE overall_header.html -->
-
 <h1>{L_ACP_SIMPLEDOWN_TITLE} - {L_ACP_SIMPLEDOWN_SETTINGS}</h1>
-
 <form id="acp_simpledown" method="post" action="{U_ACTION}" enctype="multipart/form-data">
     {S_FORM_TOKEN}
-
     <!-- CONFIGURAÇÕES GERAIS -->
     <fieldset>
         <legend>{L_ACP_SIMPLEDOWN_SETTINGS}</legend>
@@ -18,7 +15,6 @@
             <input class="button1" type="submit" name="config_submit" value="{L_ACP_SIMPLEDOWN_SAVE_CONFIG}" />
         </p>
     </fieldset>
-
     <!-- ADICIONAR / EXCLUIR CATEGORIA -->
     <fieldset>
         <legend>{L_ACP_SIMPLEDOWN_ADD_CATEGORY}</legend>
@@ -45,11 +41,9 @@
         <p>{L_ACP_SIMPLEDOWN_NO_CATEGORIES_YET}</p>
         <!-- ENDIF -->
     </fieldset>
-
     <!-- ADICIONAR ARQUIVO -->
     <fieldset>
         <legend>{L_ACP_SIMPLEDOWN_ADD_FILE}</legend>
-
         <div class="security-notices">
             <!-- Avisos de segurança -->
             <div class="warning-box">
@@ -60,10 +54,10 @@
             <!-- Arquivos permitidos -->
             <div class="allowed-box">
                 <strong><i class="fas fa-check-circle"></i> {L_ACP_SIMPLEDOWN_ALLOWED_FILES_TITLE}</strong><br />
-                {L_ACP_SIMPLEDOWN_ALLOWED_FILES_TEXT_1}
+                {L_ACP_SIMPLEDOWN_ALLOWED_FILES_TEXT_1}<br />
+	    {L_ACP_SIMPLEDOWN_ALLOWED_FILES_TEXT_2}
             </div>
         </div>
-
         <dl>
             <dt><label for="file_name">{L_ACP_SIMPLEDOWN_FILE_NAME}:</label></dt>
             <dd><input type="text" id="file_name" name="file_name" maxlength="255" /></dd>
@@ -85,15 +79,41 @@
         </dl>
         <dl>
             <dt><label for="file_upload">{L_ACP_SIMPLEDOWN_UPLOAD_FILE}:</label></dt>
-            <dd><input type="file" id="file_upload" name="file_upload" /></dd>
+            <dd>
+                <div class="custom-file-upload">
+                    <input type="file" id="file_upload" name="file_upload" />
+                    <label for="file_upload" class="custom-file-label">
+                        <span>{L_ACP_SIMPLEDOWN_CHOOSE_FILE}</span>
+                    </label>
+                    <span class="file-name-display" id="file-name-display">{L_ACP_SIMPLEDOWN_NO_FILE_SELECTED}</span>
+                </div>
+            </dd>
         </dl>
         <p class="submit-buttons">
             <input class="button1" type="submit" name="submit" value="{L_ACP_SIMPLEDOWN_UPLOAD_FILE}" />
         </p>
     </fieldset>
-
     {S_FORM_TOKEN}
 </form>
 
 <!-- INCLUDECSS @mundophpbb_simpledown/acp_simpledown.css -->
+
+<!-- JavaScript para atualizar o texto do arquivo escolhido -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.getElementById('file_upload');
+    const fileNameDisplay = document.getElementById('file-name-display');
+    
+    if (fileInput && fileNameDisplay) {
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                fileNameDisplay.textContent = e.target.files[0].name;
+            } else {
+                fileNameDisplay.textContent = '{L_ACP_SIMPLEDOWN_NO_FILE_SELECTED}';
+            }
+        });
+    }
+});
+</script>
+
 <!-- INCLUDE overall_footer.html -->

@@ -499,3 +499,78 @@
     .simpledown-header-panel { padding: 20px; }
     .file-name-uppercase { font-size: 1.9em; }
 }
+
+/* Container para título do arquivo + categoria na mesma linha */
+.file-title-with-category {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 8px 0 12px 0;
+    flex-wrap: wrap;
+}
+
+.file-title {
+    font-size: 1.35em;
+    font-weight: 700;
+    color: #000000;
+    margin: 0;
+    line-height: 1.3;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.file-category-label {
+    font-size: 0.92em;
+    font-weight: 400;
+    color: #777777;              /* cinza suave */
+    text-transform: lowercase;   /* tudo em minúsculas */
+    white-space: nowrap;
+    opacity: 0.9;
+}
+
+/* Responsivo: em telas pequenas, a categoria vai para baixo */
+@media (max-width: 480px) {
+    .file-title-with-category {
+        flex-direction: column;
+        gap: 4px;
+    }
+    .file-category-label {
+        font-size: 0.88em;
+    }
+}
+
+/* Cores dos ícones na página de detalhes */
+.details-single-info-row i {
+    margin-right: 8px;
+    font-size: 1.3em; /* um pouco maior para destacar */
+}
+
+/* Downloads (verde) */
+.details-single-info-row .info-downloads i.fa-download {
+    color: #2ecc71;
+}
+
+/* Tamanho (roxo) */
+.details-single-info-row .info-size i.fa-hdd-o {
+    color: #9b59b6;
+}
+
+/* Ícone do tipo de arquivo (cor por extensão) */
+.details-single-info-row .details-file-name i {
+    font-size: 1.4em;
+}
+
+/* Cores específicas por tipo de arquivo */
+.details-single-info-row i.fa-file-pdf       { color: #e74c3c; }
+.details-single-info-row i.fa-file-image     { color: #3498db; }
+.details-single-info-row i.fa-file-word      { color: #2980b9; }
+.details-single-info-row i.fa-file-excel     { color: #27ae60; }
+.details-single-info-row i.fa-file-powerpoint { color: #e67e22; }
+.details-single-info-row i.fa-file-archive   { color: #9b59b6; }
+.details-single-info-row i.fa-file-audio     { color: #f1c40f; }
+.details-single-info-row i.fa-file-video     { color: #c0392b; }
+.details-single-info-row i.fa-file-lines     { color: #7f8c8d; }
+.details-single-info-row i.fa-file           { color: #95a5a6; }

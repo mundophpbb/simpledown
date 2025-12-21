@@ -12,15 +12,15 @@ class main_info
     {
         return [
             'filename' => '\mundophpbb\simpledown\acp\main_module',
-            'title'    => 'ACP_SIMPLEDOWN_TITLE', // Título principal da categoria no menu ACP
+            'title'    => 'ACP_SIMPLEDOWN_TITLE',
             'modes'    => [
                 'settings' => [
-                    'title' => 'ACP_SIMPLEDOWN_SETTINGS', // "Configurações" ou "Settings"
+                    'title' => 'ACP_SIMPLEDOWN_SETTINGS',
                     'auth'  => 'ext_mundophpbb/simpledown && acl_a_board',
                     'cat'   => ['ACP_SIMPLEDOWN_TITLE'],
                 ],
                 'files' => [
-                    'title' => 'ACP_SIMPLEDOWN_FILES', // "Arquivos" ou "Files"
+                    'title' => 'ACP_SIMPLEDOWN_FILES',
                     'auth'  => 'ext_mundophpbb/simpledown && acl_a_board',
                     'cat'   => ['ACP_SIMPLEDOWN_TITLE'],
                 ],
