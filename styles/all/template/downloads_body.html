@@ -11,7 +11,7 @@
             <h2>{L_SIMPLEDOWN_TITLE}</h2>
         </div>
 
-        <!-- Controles: Busca + Categoria + Ordenação -->
+        <!-- Controles superiores: busca + categoria + ordenação -->
         <div class="simpledown-top-controls">
             <div class="search-box-wrapper">
                 <div class="search-box-outer">
@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <!-- Script completo ajustado -->
+        <!-- Script completo de filtros, busca e paginação -->
         <script>
             const ITEMS_PER_PAGE = {ITEMS_PER_PAGE};
 
@@ -51,12 +51,15 @@
                 const categoryValue = document.getElementById('category-filter').value;
                 const sortValue = document.getElementById('sort-filter').value || 'downloads-desc';
                 const searchValue = document.getElementById('search-input').value.trim().toLowerCase();
+
                 if (sortValue && sortValue !== '') {
                     document.cookie = "simpledown_sort=" + sortValue + "; path=/; max-age=" + (30*24*60*60);
                 }
+
                 const grid = document.querySelector('.downloads-grid');
                 const cards = Array.from(grid.querySelectorAll('.simpledown-card'));
                 let hasVisible = false;
+
                 cards.forEach(card => {
                     const catId = card.getAttribute('data-cat-id');
                     const title = card.querySelector('.file-title')?.textContent.toLowerCase() || '';
@@ -64,9 +67,11 @@
                     const matchesCategory = categoryValue === 'all' || catId === categoryValue;
                     const matchesSearch = searchValue === '' || title.includes(searchValue) || desc.includes(searchValue);
                     const show = matchesCategory && matchesSearch;
+
                     card.style.display = show ? 'block' : 'none';
                     if (show) hasVisible = true;
                 });
+
                 // Ordenação
                 const visibleCards = cards.filter(card => card.style.display !== 'none');
                 visibleCards.sort((a, b) => {
@@ -89,8 +94,11 @@
                     }
                     return cmp;
                 });
+
                 visibleCards.forEach(card => grid.appendChild(card));
+
                 setupPagination();
+
                 const emptyMessage = document.getElementById('search-empty-message');
                 if (emptyMessage) emptyMessage.style.display = hasVisible ? 'none' : 'block';
             }
@@ -120,15 +128,19 @@
                 const grid = document.querySelector('.downloads-grid');
                 const pagination = document.querySelector('.pagination-global');
                 if (!pagination) return;
+
                 const cards = Array.from(grid.querySelectorAll('.simpledown-card'));
                 const visibleCards = cards.filter(c => c.style.display !== 'none');
                 const totalItems = visibleCards.length;
+
                 if (totalItems <= ITEMS_PER_PAGE || totalItems === 0) {
                     pagination.style.display = 'none';
                     return;
                 }
+
                 const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
                 let currentPage = 1;
+
                 function showPage(page) {
                     let index = 0;
                     cards.forEach(card => {
@@ -138,9 +150,12 @@
                             if (show) index++;
                         }
                     });
+
                     pagination.querySelector('.pagination-info').textContent = '{L_SIMPLEDOWN_PAGINATION_INFO}'.replace('{CURRENT}', page).replace('{TOTAL}', totalPages);
+
                     let buttonsHTML = '';
                     if (page > 1) buttonsHTML += `<button onclick="changePage(${page-1})">&laquo; {L_PREVIOUS}</button>`;
+
                     for (let i = 1; i <= totalPages; i++) {
                         if (i === page || i <= 3 || i > totalPages - 3 || Math.abs(i - page) <= 2) {
                             buttonsHTML += `<button class="${i === page ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
@@ -148,13 +163,17 @@
                             buttonsHTML += `<span>...</span>`;
                         }
                     }
+
                     if (page < totalPages) buttonsHTML += `<button onclick="changePage(${page+1})">{L_NEXT} &raquo;</button>`;
+
                     pagination.querySelector('.pagination-buttons').innerHTML = buttonsHTML;
                 }
+
                 window.changePage = function(page) {
                     currentPage = page;
                     showPage(page);
                 };
+
                 pagination.style.display = 'flex';
                 showPage(1);
             }
@@ -179,22 +198,18 @@
             });
         </script>
 
-        <!-- Grade única com todos os arquivos -->
+        <!-- Grade de arquivos -->
         <div class="downloads-grid">
             <!-- BEGIN categories -->
                 <!-- BEGIN files -->
                 <div class="simpledown-card" data-cat-id="{categories.ID}">
                     <div class="card-content">
-                        <!-- Nome do arquivo exibido -->
                         <h3 class="file-title">{categories.files.NAME}</h3>
-
-                        <!-- Categoria -->
                         <span class="file-category-label">
                             <strong>{L_SIMPLEDOWN_CATEGORY}:</strong> {categories.NAME}
                         </span>
-
-                        <p class="file-description">{categories.files.DESC}</p>
-
+                        <!-- DESCRIÇÃO CURTA -->
+                        <p class="file-description">{categories.files.DESC_SHORT}</p>
                         <div class="file-info-row">
                             <span><i class="icon fa-download fa-fw"></i> {categories.files.DOWNLOADS}</span>
                             <!-- IF categories.files.FILE_ICON == 'fa-file-image' -->
@@ -204,18 +219,14 @@
                             <!-- ENDIF -->
                             <span><i class="icon fa-hdd-o fa-fw"></i> {categories.files.SIZE}</span>
                         </div>
-
-                        <!-- Nome real + ícone + versão (tudo na mesma linha) -->
-                        <!-- Nome real + ícone + versão (tudo na mesma linha) -->
-<span class="file-name-below">
-    <i class="icon fa-fw {categories.files.FILE_ICON}" aria-hidden="true"></i>
-    <span class="file-realname-truncate">{categories.files.REAL_NAME}</span>
-    <!-- IF categories.files.VERSION -->
-    <span class="version-badge">v{categories.files.VERSION}</span>
-    <!-- ENDIF -->
-</span>
+                        <span class="file-name-below">
+                            <i class="icon fa-fw {categories.files.FILE_ICON}" aria-hidden="true"></i>
+                            <span class="file-realname-truncate">{categories.files.REAL_NAME}</span>
+                            <!-- IF categories.files.VERSION -->
+                            <span class="version-badge">v{categories.files.VERSION}</span>
+                            <!-- ENDIF -->
+                        </span>
                     </div>
-
                     <div class="card-footer">
                         <a href="{categories.files.U_DETAILS}" class="details-btn-small">
                             <i class="icon fa-info-circle fa-fw"></i> {L_SIMPLEDOWN_DETAILS_BUTTON}
@@ -245,20 +256,19 @@
             </div>
         </div>
 
-        <!-- Estado inicial: sem downloads -->
+        <!-- Sem downloads -->
         <!-- IF not .categories -->
         <div class="simpledown-empty-state">
             <p>{L_SIMPLEDOWN_NO_DOWNLOADS_AVAILABLE}</p>
         </div>
         <!-- ENDIF -->
 
-        <!-- Modal de pré-visualização -->
-        <div id="image-modal" class="image-modal" style="display: none;">
-            <div class="modal-image-wrapper">
-                <span class="modal-close" onclick="closeImageModal()">×</span>
-                <img id="modal-image" class="modal-image-content" alt="{L_SIMPLEDOWN_IMAGE_PREVIEW_ALT}" />
-            </div>
-        </div>
+<div id="image-modal" class="image-modal">
+    <div class="modal-image-wrapper">
+        <span class="modal-close" onclick="closeImageModal()"><i class="fas fa-times"></i></span>
+        <img id="modal-image" class="modal-image-content" alt="{L_SIMPLEDOWN_IMAGE_PREVIEW_ALT}" />
+    </div>
+</div>
 
         <script>
             function openImageModal(element) {
@@ -273,9 +283,11 @@
                     modal.style.display = 'none';
                 };
             }
+
             function closeImageModal() {
                 document.getElementById('image-modal').style.display = 'none';
             }
+
             window.addEventListener('click', function(event) {
                 const modal = document.getElementById('image-modal');
                 if (event.target === modal) closeImageModal();

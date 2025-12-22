@@ -59,15 +59,10 @@ class main_controller
     protected function get_formatted_filesize($bytes)
     {
         $bytes = max((int)$bytes, 0);
-        if ($bytes < 1024) {
-            return $bytes . ' bytes';
-        } elseif ($bytes < 1048576) {
-            return round($bytes / 1024, 2) . ' KB';
-        } elseif ($bytes < 1073741824) {
-            return round($bytes / 1048576, 2) . ' MB';
-        } else {
-            return round($bytes / 1073741824, 2) . ' GB';
-        }
+        if ($bytes < 1024) return $bytes . ' bytes';
+        if ($bytes < 1048576) return round($bytes / 1024, 2) . ' KB';
+        if ($bytes < 1073741824) return round($bytes / 1048576, 2) . ' MB';
+        return round($bytes / 1073741824, 2) . ' GB';
     }
 
     protected function get_file_icon_class($filename)
@@ -90,24 +85,28 @@ class main_controller
     public function handle()
     {
         $this->language->add_lang('common', 'mundophpbb/simpledown');
+
         $items_per_page = (int)($this->config['simpledown_items_per_page'] ?? 12);
 
         $sql = 'SELECT f.*, c.name AS cat_name, f.category_id AS cat_id
                 FROM ' . $this->files_table . ' f
                 LEFT JOIN ' . $this->categories_table . ' c ON f.category_id = c.id
                 ORDER BY COALESCE(c.name, ""), f.file_name';
+
         $result = $this->db->sql_query($sql);
+
         $cat_files = [];
-        while ($row = $this->db->sql_fetchrow($result))
-        {
+        while ($row = $this->db->sql_fetchrow($result)) {
             $cat_id = $row['cat_id'];
             $cat_name = $row['cat_name'] ?: $this->language->lang('SIMPLEDOWN_NO_CATEGORY');
+
             if (!isset($cat_files[$cat_id])) {
                 $cat_files[$cat_id] = [
                     'name' => $cat_name,
                     'files' => [],
                 ];
             }
+
             $cat_files[$cat_id]['files'][] = $row;
         }
         $this->db->sql_freeresult($result);
@@ -119,10 +118,14 @@ class main_controller
                 'ID' => $cat_id,
                 'FILE_COUNT' => $file_count,
             ]);
+
             foreach ($cat_data['files'] as $file) {
+                $short_desc = $file['file_desc_short'] ?: $file['file_desc'] ?: $this->language->lang('SIMPLEDOWN_NO_DESCRIPTION');
+
                 $this->template->assign_block_vars('categories.files', [
                     'NAME' => $file['file_name'],
-                    'DESC' => $file['file_desc_short'] ?? ($file['file_desc'] ?? $this->language->lang('SIMPLEDOWN_NO_DESCRIPTION')),
+                    'DESC_SHORT' => $short_desc,
+                    'DESC' => $file['file_desc'], // Para busca completa
                     'DOWNLOADS' => $file['downloads'],
                     'SIZE' => $this->get_formatted_filesize($file['file_size']),
                     'REAL_NAME' => $file['file_realname'],
@@ -130,7 +133,7 @@ class main_controller
                     'U_PREVIEW' => $this->helper->route('mundophpbb_simpledown_preview', ['id' => $file['id']]),
                     'U_DETAILS' => $this->helper->route('mundophpbb_simpledown_details', ['id' => $file['id']]),
                     'FILE_ICON' => $this->get_file_icon_class($file['file_realname']),
-                    'VERSION' => $file['version'] ?? '',  // <--- ESSA LINHA CORRIGE A VERSÃO NO ÍNDICE
+                    'VERSION' => $file['version'] ?? '',
                 ]);
             }
         }
@@ -142,10 +145,10 @@ class main_controller
                 'NAME' => $this->language->lang('SIMPLEDOWN_NO_CATEGORY'),
             ]);
         }
+
         $sql_dropdown = 'SELECT id, name FROM ' . $this->categories_table . ' ORDER BY name';
         $result_dropdown = $this->db->sql_query($sql_dropdown);
-        while ($row_dropdown = $this->db->sql_fetchrow($result_dropdown))
-        {
+        while ($row_dropdown = $this->db->sql_fetchrow($result_dropdown)) {
             if (isset($cat_files[$row_dropdown['id']])) {
                 $this->template->assign_block_vars('dropdown_categories', [
                     'ID' => $row_dropdown['id'],
@@ -170,6 +173,7 @@ class main_controller
                 FROM ' . $this->files_table . ' f
                 LEFT JOIN ' . $this->categories_table . ' c ON f.category_id = c.id
                 WHERE f.id = ' . (int)$id;
+
         $result = $this->db->sql_query($sql);
         $file = $this->db->sql_fetchrow($result);
         $this->db->sql_freeresult($result);
@@ -181,30 +185,23 @@ class main_controller
         $is_image = in_array(strtolower(pathinfo($file['file_realname'], PATHINFO_EXTENSION)),
             ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg']);
 
-        $desc_text = $file['file_desc_full'] ?? $file['file_desc'] ?? '';
-        $full_desc = generate_text_for_display(
-            $desc_text,
-            $file['file_uid'] ?? '',
-            $file['file_bitfield'] ?? '',
-            $file['file_options'] ?? 7
-        );
+        $full_desc = $file['file_desc'] ?: $this->language->lang('SIMPLEDOWN_NO_DESCRIPTION');
 
         $version_display = !empty($file['version']) ? $file['version'] : $this->language->lang('SIMPLEDOWN_NO_VERSION');
 
         $this->template->assign_vars([
-            'FILE_NAME'         => $file['file_name'],
-            'FILE_DESC'         => $full_desc ?: $this->language->lang('SIMPLEDOWN_NO_DESCRIPTION'),
-            'FILE_REALNAME'     => $file['file_realname'],
-            'FILE_SIZE'         => $this->get_formatted_filesize($file['file_size']),
-            'FILE_DOWNLOADS'    => $file['downloads'],
-            'FILE_ICON'         => $this->get_file_icon_class($file['file_realname']),
-            'U_DOWNLOAD'        => $this->helper->route('mundophpbb_simpledown_download', ['id' => $file['id']]),
-            'U_PREVIEW'         => $is_image ? $this->helper->route('mundophpbb_simpledown_preview', ['id' => $file['id']]) : '',
-            'HAS_THUMBNAIL'     => $is_image,
-            'CAT_NAME'          => $file['cat_name'] ?: $this->language->lang('SIMPLEDOWN_NO_CATEGORY'),
-            'U_SIMPLEDOWN'      => $this->helper->route('mundophpbb_simpledown_index'),
-            'FILE_VERSION'      => $file['version'] ?? '',
-            'VERSION_DISPLAY'   => $version_display,
+            'FILE_NAME' => $file['file_name'],
+            'FILE_DESC' => $full_desc,
+            'FILE_REALNAME' => $file['file_realname'],
+            'FILE_SIZE' => $this->get_formatted_filesize($file['file_size']),
+            'FILE_DOWNLOADS' => $file['downloads'],
+            'FILE_ICON' => $this->get_file_icon_class($file['file_realname']),
+            'U_DOWNLOAD' => $this->helper->route('mundophpbb_simpledown_download', ['id' => $file['id']]),
+            'U_PREVIEW' => $is_image ? $this->helper->route('mundophpbb_simpledown_preview', ['id' => $file['id']]) : '',
+            'HAS_THUMBNAIL' => $is_image,
+            'CAT_NAME' => $file['cat_name'] ?: $this->language->lang('SIMPLEDOWN_NO_CATEGORY'),
+            'U_SIMPLEDOWN' => $this->helper->route('mundophpbb_simpledown_index'),
+            'VERSION_DISPLAY' => $version_display,
         ]);
 
         return $this->helper->render('download_details.html', $file['file_name'] . ' - ' . $this->language->lang('SIMPLEDOWN_TITLE'));
@@ -229,6 +226,7 @@ class main_controller
         $response = new BinaryFileResponse($file_path);
         $response->headers->set('Content-Type', mime_content_type($file_path) ?: 'application/octet-stream');
         $response->headers->set('Cache-Control', 'public, max-age=31536000');
+
         return $response;
     }
 
@@ -257,6 +255,7 @@ class main_controller
         $response->headers->set('Content-Type', 'application/octet-stream');
         $response->headers->set('Content-Length', filesize($file_path));
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $row['file_name']);
+
         return $response;
     }
 }

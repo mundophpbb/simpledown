@@ -143,6 +143,7 @@
     font-size: 1.2em;
     color: #555555;
     line-height: 1.5;
+    margin-top: 6px;
     margin-bottom: 16px;
     display: -webkit-box;
     -webkit-line-clamp: 4;
@@ -179,19 +180,19 @@
 }
 .preview-btn:hover { color: #2980b9; }
 
-/* Nome do arquivo + ícone + versão (tudo na mesma linha) */
+/* Nome do arquivo + ícone + versão */
 .file-name-below {
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
-    gap: 6px; /* Ajustado: antes era 8px */
+    gap: 6px;
     margin-top: 8px;
     font-size: 0.95em;
     color: #555555;
     overflow: hidden;
 }
 .file-name-below i {
-    margin-right: 3px !important; /* Ajustado: antes era 4px */
+    margin-right: 3px !important;
 }
 .file-realname-truncate {
     flex: 1;
@@ -200,8 +201,6 @@
     white-space: nowrap;
     min-width: 0;
 }
-
-/* Badge de versão (inline) */
 .version-badge {
     flex-shrink: 0;
     font-size: 0.8em;
@@ -210,9 +209,6 @@
     color: white;
     padding: 2px 8px;
     border-radius: 10px;
-    line-height: 1.2;
-    vertical-align: middle;
-    white-space: nowrap;
 }
 
 /* Ícones por tipo de arquivo */
@@ -360,7 +356,7 @@
     gap: 10px;
 }
 
-/* Modal de imagem */
+/* Modal de imagem - MELHOR SOLUÇÃO */
 .image-modal {
     display: none;
     position: fixed;
@@ -376,7 +372,13 @@
     padding: 20px;
     box-sizing: border-box;
 }
-.modal-image-wrapper { position: relative; display: inline-block; line-height: 0; }
+.modal-image-wrapper {
+    position: relative;
+    display: inline-block;
+    max-width: 90vw;
+    max-height: 90vh;
+    line-height: 0;
+}
 .modal-image-content {
     max-width: 90vw;
     max-height: 90vh;
@@ -384,11 +386,14 @@
     border-radius: 12px;
     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
 }
+
+/* Botão X fixo no canto superior direito da tela */
 .modal-close {
-    position: absolute;
-    top: -15px;
-    right: -15px;
-    background: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    background: rgba(0, 0, 0, 0.7);
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -400,9 +405,20 @@
     justify-content: center;
     align-items: center;
     transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
-.modal-close:hover { background: #e74c3c; transform: scale(1.1); }
+.modal-close:hover {
+    background: #e74c3c;
+    transform: scale(1.1);
+}
+.modal-close:focus {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
+}
 
+.modal-close i {
+    font-size: 32px;
+}
 /* Página de detalhes */
 .simpledown-header-panel {
     padding: 30px 40px;
@@ -435,7 +451,7 @@
 }
 .details-card-content { padding: 40px; }
 .file-description-full {
-    font-size: 1.5em;
+    font-size: 1.3em;
     line-height: 1.8;
     color: #333;
     margin: 0 0 50px 0;
@@ -540,7 +556,7 @@
 
 /* Cores dos ícones na página de detalhes */
 .details-single-info-row i {
-    margin-right: 8px;
+    margin-right: -3px;
     font-size: 1.3em;
 }
 .details-single-info-row .info-downloads i.fa-download { color: #2ecc71; }
@@ -559,7 +575,7 @@
 .details-single-info-row i.fa-file-lines { color: #7f8c8d; }
 .details-single-info-row i.fa-file { color: #95a5a6; }
 
-/* Versão na página de detalhes */
+//* Versão na página de detalhes */
 .info-version {
     font-size: 0.95em;
     color: #555;
@@ -568,7 +584,7 @@
 .info-version .version-icon {
     color: #e67e22 !important;
     font-size: 1.2em;
-    margin-right: 6px;
+    margin-right: -5px;  /* <--- este é o culpado! */
 }
 .info-version:hover .version-icon {
     color: #d35400 !important;
@@ -578,7 +594,7 @@
 .details-file-name {
     display: flex;
     align-items: center;
-    gap: 6px; /* Ajustado: antes era 8px */
+    gap: 6px;
     flex: 1;
     min-width: 0;
 }

@@ -21,31 +21,28 @@
                 <p class="file-description-full no-description">{L_SIMPLEDOWN_NO_DESCRIPTION}</p>
                 <!-- ENDIF -->
 
-<!-- Linha única com infos -->
-<div class="details-single-info-row">
-    <span class="details-file-name">
-        <i class="icon fa-fw {FILE_ICON}"></i>
-        <span class="file-realname-truncate">{FILE_REALNAME}</span>
-    </span>
-    <span class="info-downloads">
-        <i class="icon fa-download fa-fw"></i> {FILE_DOWNLOADS} {L_SIMPLEDOWN_DOWNLOADS_LOWER}
-    </span>
-    <span class="info-size">
-        <i class="icon fa-hdd-o fa-fw"></i> {FILE_SIZE}
-    </span>
-    <!-- Versão sempre visível -->
-    <span class="info-version">
-        <i class="icon fa-tag fa-fw version-icon"></i> {L_SIMPLEDOWN_VERSION} {VERSION_DISPLAY}
-    </span>
-    <!-- IF HAS_THUMBNAIL -->
-    <span class="preview-btn" onclick="openImageModal('{U_PREVIEW}')" title="{L_SIMPLEDOWN_PREVIEW_IMAGE}">
-        <i class="icon fa-eye fa-fw"></i>
-    </span>
-    <!-- ENDIF -->
-</div>
+                <div class="details-single-info-row">
+                    <span class="details-file-name">
+                        <i class="icon fa-fw {FILE_ICON}"></i>
+                        <span class="file-realname-truncate">{FILE_REALNAME}</span>
+                    </span>
+                    <span class="info-downloads">
+                        <i class="icon fa-download fa-fw"></i> {FILE_DOWNLOADS} {L_SIMPLEDOWN_DOWNLOADS_LOWER}
+                    </span>
+                    <span class="info-size">
+                        <i class="icon fa-hdd-o fa-fw"></i> {FILE_SIZE}
+                    </span>
+                    <span class="info-version">
+                        <i class="icon fa-tag fa-fw version-icon"></i> {L_SIMPLEDOWN_VERSION} {VERSION_DISPLAY}
+                    </span>
+                    <!-- IF HAS_THUMBNAIL -->
+                    <span class="preview-btn" onclick="openImageModal('{U_PREVIEW}')" title="{L_SIMPLEDOWN_PREVIEW_IMAGE}">
+                        <i class="icon fa-eye fa-fw"></i>
+                    </span>
+                    <!-- ENDIF -->
+                </div>
             </div>
         </div>
-
         <div class="card-footer details-card-footer">
             <a href="{U_DOWNLOAD}" class="download-btn">
                 <i class="icon fa-download fa-fw"></i> {L_DOWNLOAD_BUTTON}
@@ -60,7 +57,7 @@
 
 <div id="image-modal" class="image-modal">
     <div class="modal-image-wrapper">
-        <span class="modal-close" onclick="closeImageModal()">&times;</span>
+        <span class="modal-close" onclick="closeImageModal()"><i class="fas fa-times"></i></span>
         <img id="modal-image" class="modal-image-content" alt="{L_SIMPLEDOWN_IMAGE_PREVIEW_ALT}" />
     </div>
 </div>

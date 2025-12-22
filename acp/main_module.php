@@ -6,11 +6,6 @@
  */
 namespace mundophpbb\simpledown\acp;
 
-use phpbb\config\config;
-use phpbb\request\request;
-use phpbb\template\template;
-use phpbb\user;
-
 class main_module
 {
     public $u_action;
@@ -21,13 +16,13 @@ class main_module
     {
         global $phpbb_container, $user;
 
-        // Carrega o idioma comum (frontend)
+        // Carrega idioma comum (frontend)
         $user->add_lang_ext('mundophpbb/simpledown', 'common');
 
-        // FORÇA o carregamento do inglês como base (fallback)
+        // Carrega idioma ACP em inglês como fallback
         $user->add_lang_ext('mundophpbb/simpledown', 'acp/info_acp_simpledown', 'en');
 
-        // Carrega o idioma do usuário atual (se diferente do inglês)
+        // Carrega idioma do usuário se diferente do inglês
         if ($user->lang['CODE'] !== 'en') {
             $user->add_lang_ext('mundophpbb/simpledown', 'acp/info_acp_simpledown');
         }

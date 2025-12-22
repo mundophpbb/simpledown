@@ -1,6 +1,6 @@
 <?php
 /**
- * Arquivo de Idioma - Common (Português Brasileiro)
+ * Arquivo de Idioma - Comum (Português do Brasil)
  *
  * @package mundophpbb/simpledown
  * @copyright (c) 2025 Mundo phpBB
@@ -10,54 +10,69 @@ if (!defined('IN_PHPBB'))
 {
     exit;
 }
+
 if (empty($lang) || !is_array($lang))
 {
-    $lang = array();
+    $lang = [];
 }
-$lang = array_merge($lang, array(
+
+$lang = array_merge($lang, [
     // Título e mensagens gerais
     'SIMPLEDOWN_TITLE' => 'Downloads',
     'SIMPLEDOWN_NO_CATEGORY' => 'Sem Categoria',
-    'SIMPLEDOWN_SHOW_ALL_CATEGORIES' => 'Mostrar todas categorias',
+    'SIMPLEDOWN_SHOW_ALL_CATEGORIES' => 'Mostrar todas as categorias',
     'SIMPLEDOWN_NO_DOWNLOADS_AVAILABLE' => 'Nenhum download disponível.',
     'SIMPLEDOWN_NO_CATEGORIES_YET' => 'Nenhuma categoria ainda.',
     'SIMPLEDOWN_FILE_NOT_FOUND' => 'Arquivo não encontrado.',
+
     // Informações do arquivo
     'SIMPLEDOWN_DOWNLOADS' => 'Downloads',
     'SIMPLEDOWN_DOWNLOADS_LOWER' => 'downloads',
     'SIMPLEDOWN_SIZE' => 'Tamanho',
-    'SIMPLEDOWN_NO_DESCRIPTION' => 'Sem descrição disponível.',
+    'SIMPLEDOWN_NO_DESCRIPTION' => 'Nenhuma descrição disponível.',
+    'SIMPLEDOWN_NO_SHORT_DESCRIPTION' => 'Nenhuma descrição curta disponível.',
+
     // Botões e navegação
     'DOWNLOAD_BUTTON' => 'Download',
     'SIMPLEDOWN_DETAILS_BUTTON' => 'Detalhes',
-    'SIMPLEDOWN_BACK_TO_DOWNLOADS' => 'Voltar para Downloads',
+    'SIMPLEDOWN_BACK_TO_DOWNLOADS' => 'Voltar aos Downloads',
+
     // Categoria
     'SIMPLEDOWN_CATEGORY' => 'Categoria',
+
     // Pré-visualização de imagem
     'SIMPLEDOWN_PREVIEW_IMAGE' => 'Pré-visualizar imagem',
     'SIMPLEDOWN_IMAGE_PREVIEW_ALT' => 'Pré-visualização da imagem',
+
     // Busca
     'SIMPLEDOWN_SEARCH_PLACEHOLDER' => 'Buscar por nome ou descrição...',
+
     // Ordenação
-    'SIMPLEDOWN_SORT_DEFAULT' => 'Ordenar',
+    'SIMPLEDOWN_SORT_DEFAULT' => 'Ordenar por',
     'SORT_NAME_ASC' => 'Nome (A → Z)',
     'SORT_NAME_DESC' => 'Nome (Z → A)',
     'SORT_DOWNLOADS_DESC' => 'Mais baixados',
     'SORT_DOWNLOADS_ASC' => 'Menos baixados',
     'SORT_SIZE_DESC' => 'Maior tamanho',
     'SORT_SIZE_ASC' => 'Menor tamanho',
+
     // Contagem
     'SIMPLEDOWN_FILES' => 'arquivos',
+
     // Logs
     'LOG_SIMPLEDOWN_FILE_DOWNLOADED' => 'Arquivo SimpleDown baixado: %s',
+
     // Busca vazia
     'SIMPLEDOWN_CLEAR_SEARCH' => 'Limpar busca',
-    'SIMPLEDOWN_SEARCH_EMPTY' => 'Nada encontrado para a sua pesquisa...',
-    'SIMPLEDOWN_SEARCH_EMPTY_HINT' => 'Tente usar outros termos ou remover alguns filtros.',
+    'SIMPLEDOWN_SEARCH_EMPTY' => 'Nenhum resultado encontrado para sua busca...',
+    'SIMPLEDOWN_SEARCH_EMPTY_HINT' => 'Tente usar termos diferentes ou remover alguns filtros.',
+
     'SIMPLEDOWN_PAGINATION_INFO' => 'Página {CURRENT} de {TOTAL}',
+
     // Badge de versão
     'SIMPLEDOWN_VERSION' => 'Versão',
-    'SIMPLEDOWN_NO_VERSION' => 'Sem versão', // Para quando não houver versão
-'L_PREVIOUS' => 'Anterior',
-'L_NEXT' => 'Próxima',
-));
+    'SIMPLEDOWN_NO_VERSION' => 'Sem versão',
+
+    'L_PREVIOUS' => 'Anterior',
+    'L_NEXT' => 'Próxima',
+]);

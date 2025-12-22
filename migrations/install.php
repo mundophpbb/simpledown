@@ -21,11 +21,13 @@ class install extends \phpbb\db\migration\migration
     public function update_data()
     {
         return [
+            // Adiciona o módulo ACP no painel de administração
             ['module.add', [
                 'acp',
                 'ACP_CAT_DOT_MODS',
                 'ACP_SIMPLEDOWN_TITLE'
             ]],
+
             ['module.add', [
                 'acp',
                 'ACP_SIMPLEDOWN_TITLE',
@@ -34,7 +36,11 @@ class install extends \phpbb\db\migration\migration
                     'modes' => ['settings', 'files'],
                 ],
             ]],
+
+            // Configurações padrão
             ['config.add', ['simpledown_max_upload_size', 100]],
+            ['config.add', ['simpledown_short_desc_limit', 150]],
+            ['config.add', ['simpledown_items_per_page', 12]],
         ];
     }
 
@@ -44,22 +50,24 @@ class install extends \phpbb\db\migration\migration
             'add_tables' => [
                 $this->table_prefix . 'simpledown_categories' => [
                     'COLUMNS' => [
-                        'id' => ['UINT', null, 'auto_increment'],
+                        'id'   => ['UINT', null, 'auto_increment'],
                         'name' => ['VCHAR:255', ''],
                     ],
                     'PRIMARY_KEY' => 'id',
                 ],
+
                 $this->table_prefix . 'simpledown_files' => [
                     'COLUMNS' => [
-                        'id' => ['UINT', null, 'auto_increment'],
-                        'file_name' => ['VCHAR:255', ''],
-                        'file_realname' => ['VCHAR:255', ''],
-                        'file_desc' => ['TEXT', ''],
-                        'version' => ['VCHAR:50', null], // Nova coluna
-                        'category_id' => ['UINT', 0],
-                        'downloads' => ['UINT', 0],
-                        'file_size' => ['UINT', 0],
-                        'file_hash' => ['VCHAR:32', ''],
+                        'id'              => ['UINT', null, 'auto_increment'],
+                        'file_name'       => ['VCHAR:255', ''],
+                        'file_realname'   => ['VCHAR:255', ''],
+                        'file_desc_short' => ['TEXT_UNI', ''], // Descrição curta
+                        'file_desc'       => ['TEXT_UNI', ''], // Descrição completa
+                        'version'         => ['VCHAR:50', null],
+                        'category_id'     => ['UINT', 0],
+                        'downloads'       => ['UINT', 0],
+                        'file_size'       => ['UINT', 0],
+                        'file_hash'       => ['VCHAR:32', ''],
                     ],
                     'PRIMARY_KEY' => 'id',
                 ],
@@ -82,6 +90,8 @@ class install extends \phpbb\db\migration\migration
         return [
             ['custom', [[$this, 'delete_all_files']]],
             ['config.remove', ['simpledown_max_upload_size']],
+            ['config.remove', ['simpledown_short_desc_limit']],
+            ['config.remove', ['simpledown_items_per_page']],
         ];
     }
 
@@ -94,6 +104,7 @@ class install extends \phpbb\db\migration\migration
             $base_dir . 'cache/',
             $base_dir . 'thumbs/',
         ];
+
         foreach ($dirs_to_clean as $dir) {
             if (is_dir($dir)) {
                 $files = glob($dir . '*');
