@@ -136,21 +136,21 @@ class main_controller
                 $is_private = in_array($file['category_id'], $private_categories) || (!empty($file['is_private']) && $file['is_private'] == 1);
 
                 $this->template->assign_block_vars('categories.files', [
-                    'NAME'           => $file['file_name'],
-                    'DESC_SHORT'     => $short_desc,
-                    'DESC'           => $file['file_desc'],
-                    'DOWNLOADS'      => $file['downloads'],
-                    'SIZE'           => $this->get_formatted_filesize($file['file_size']),
-                    'REAL_NAME'      => $file['file_realname'],
-                    'U_DOWNLOAD'     => $this->helper->route('mundophpbb_simpledown_download', ['id' => $file['id']]),
-                    'U_PREVIEW'      => $this->helper->route('mundophpbb_simpledown_preview', ['id' => $file['id']]),
-                    'U_DETAILS'      => $this->helper->route('mundophpbb_simpledown_details', ['id' => $file['id']]),
-                    'FILE_ICON'      => $this->get_file_icon_class($file['file_realname']),
-                    'VERSION'        => $file['version'] ?? '',
-                    'HAS_THUMBNAIL'  => $has_thumbnail,
-                    'U_THUMBNAIL'    => $thumb_url,
-                    'IS_PRIVATE'     => $is_private,
-                    'PRIVATE_LABEL'  => $is_private ? $this->language->lang('SIMPLEDOWN_PRIVATE_FILE') : $this->language->lang('SIMPLEDOWN_PUBLIC_FILE'),
+                    'NAME'             => $file['file_name'],
+                    'DESC_SHORT'       => $short_desc,
+                    'DESC'             => $file['file_desc'],
+                    'DOWNLOADS'        => $file['downloads'],
+                    'SIZE'             => $this->get_formatted_filesize($file['file_size']),
+                    'REAL_NAME'        => $file['file_realname'],
+                    'U_DOWNLOAD'       => $this->helper->route('mundophpbb_simpledown_download', ['id' => $file['id']]),
+                    'U_PREVIEW'        => $this->helper->route('mundophpbb_simpledown_preview', ['id' => $file['id']]),
+                    'U_DETAILS'        => $this->helper->route('mundophpbb_simpledown_details', ['id' => $file['id']]),
+                    'FILE_ICON'        => $this->get_file_icon_class($file['file_realname']),
+                    'VERSION'          => $file['version'] ?? '',
+                    'HAS_THUMBNAIL'    => $has_thumbnail,
+                    'U_THUMBNAIL'      => $thumb_url,
+                    'IS_PRIVATE'       => $is_private,
+                    'PRIVATE_LABEL'    => $is_private ? $this->language->lang('SIMPLEDOWN_PRIVATE_FILE') : $this->language->lang('SIMPLEDOWN_PUBLIC_FILE'),
                     'SHOW_LOGIN_MODAL' => $is_private && !$is_logged_in,
                 ]);
             }
@@ -183,7 +183,7 @@ class main_controller
             'S_IS_LOGGED_IN'     => $is_logged_in,
             'U_LOGIN'            => append_sid("{$this->root_path}ucp.{$this->php_ext}", 'mode=login'),
             'U_REGISTER'         => append_sid("{$this->root_path}ucp.{$this->php_ext}", 'mode=register'),
-            'S_SIMPLEDOWN_THEME' => $site_theme, // ← Nova variável para o template
+            'S_SIMPLEDOWN_THEME' => $site_theme,
         ]);
 
         return $this->helper->render('downloads_body.html', $this->language->lang('SIMPLEDOWN_TITLE'));
@@ -239,11 +239,11 @@ class main_controller
             'IS_IMAGE'           => $is_image,
             'IS_PRIVATE'         => $is_private,
             'PRIVATE_LABEL'      => $is_private ? $this->language->lang('SIMPLEDOWN_PRIVATE_FILE') : $this->language->lang('SIMPLEDOWN_PUBLIC_FILE'),
-            'SHOW_LOGIN_MODAL'   => $show_login_modal,
+            'SHOW_LOGIN_MODAL'   => $show_login_modal, // ← CORREÇÃO AQUI: agora o modal aparece na página de detalhes também
             'S_IS_LOGGED_IN'     => $is_logged_in,
             'U_LOGIN'            => append_sid("{$this->root_path}ucp.{$this->php_ext}", 'mode=login'),
             'U_REGISTER'         => append_sid("{$this->root_path}ucp.{$this->php_ext}", 'mode=register'),
-            'S_SIMPLEDOWN_THEME' => $site_theme, // ← Nova variável para o template de detalhes
+            'S_SIMPLEDOWN_THEME' => $site_theme,
         ]);
 
         return $this->helper->render('download_details.html', $file['file_name'] . ' - ' . $this->language->lang('SIMPLEDOWN_TITLE'));
