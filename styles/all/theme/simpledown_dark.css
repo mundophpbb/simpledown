@@ -617,4 +617,56 @@
     .thumbnail-fixed {
         object-fit: contain;
     }
+}/* Modal de Arquivo Privado - Dark */
+.private-modal-content {
+    max-width: 420px;
+    width: 90%;
+    background: #1e1e1e;
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+    border: 1px solid #444444;
+    position: relative;
+}
+
+.private-modal-icon {
+    color: #e74c3c;
+    margin-bottom: 20px;
+}
+
+.private-modal-title {
+    margin: 0 0 15px 0;
+    font-size: 1.6em;
+    color: #ffffff;
+}
+
+.private-modal-text {
+    color: #bbbbbb;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    font-size: 1.05em;
+}
+
+.private-modal-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.private-modal-buttons a {
+    padding: 12px 28px;
+    margin: 0;
+}
+
+/* Sobrescreve o h3 do prosilver apenas dentro do modal privado */
+#login-required-modal h3 {
+    font-family: 'Bai Jamjuree', 'Roboto', Arial, Helvetica, sans-serif !important; /* Mantém sua fonte */
+    font-weight: 700 !important;
+    text-transform: none !important; /* Remove o uppercase se quiser (opcional) */
+    border-bottom: none !important;
+    margin: 0 0 15px 0 !important;
+    padding-bottom: 0 !important; /* Remove o padding-bottom: 20px indesejado */
+    font-size: 1.6em !important;
+    margin-top: 0 !important;
 }

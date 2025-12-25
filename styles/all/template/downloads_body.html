@@ -126,25 +126,25 @@
             </div>
         </div>
 
-        <!-- MODAL PARA ARQUIVO PRIVADO (CORRIGIDO PARA DARK MODE) -->
-        <div id="login-required-modal" class="image-modal" style="display: none;">
-            <div class="modal-image-wrapper private-modal-content">
-                <span class="modal-close" onclick="document.getElementById('login-required-modal').style.display='none'">
-                    <i class="fas fa-times"></i>
-                </span>
-                <i class="fas fa-lock fa-4x" style="color: #e74c3c; margin-bottom: 20px;"></i>
-                <h3>{L_SIMPLEDOWN_LOGIN_REQUIRED}</h3>
-                <p>{L_SIMPLEDOWN_PRIVATE_MODAL_TEXT}</p>
-                <div>
-                    <a href="{U_LOGIN}" class="download-btn">
-                        <i class="fas fa-sign-in-alt"></i> {L_SIMPLEDOWN_LOGIN_BUTTON}
-                    </a>
-                    <a href="{U_REGISTER}" class="details-btn-small">
-                        <i class="fas fa-user-plus"></i> {L_SIMPLEDOWN_REGISTER_BUTTON}
-                    </a>
-                </div>
-            </div>
+<!-- MODAL PARA ARQUIVO PRIVADO -->
+<div id="login-required-modal" class="image-modal" style="display: none;">
+    <div class="modal-image-wrapper private-modal-content">
+        <span class="modal-close" onclick="document.getElementById('login-required-modal').style.display='none'">
+            <i class="fas fa-times"></i>
+        </span>
+        <i class="fas fa-lock fa-4x private-modal-icon"></i>
+        <h3 class="private-modal-title">{L_SIMPLEDOWN_LOGIN_REQUIRED}</h3>
+        <p class="private-modal-text">{L_SIMPLEDOWN_PRIVATE_MODAL_TEXT}</p>
+        <div class="private-modal-buttons">
+            <a href="{U_LOGIN}" class="download-btn">
+                <i class="fas fa-sign-in-alt"></i> {L_SIMPLEDOWN_LOGIN_BUTTON}
+            </a>
+            <a href="{U_REGISTER}" class="details-btn-small">
+                <i class="fas fa-user-plus"></i> {L_SIMPLEDOWN_REGISTER_BUTTON}
+            </a>
         </div>
+    </div>
+</div>
     </div>
 </div>
 
