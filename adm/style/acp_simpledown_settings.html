@@ -137,12 +137,15 @@
             <dl>
                 <dt><label for="category">{L_ACP_SIMPLEDOWN_CATEGORY}:</label></dt>
                 <dd>
-                    <select id="category" name="category">
-                        <option value="0">{L_ACP_SIMPLEDOWN_NO_CATEGORY}</option>
-                        <!-- BEGIN categories -->
-                        <option value="{categories.ID}">{categories.NAME}</option>
-                        <!-- END categories -->
-                    </select>
+                    <select id="category" name="category" required>
+    <option value="" disabled selected>{L_ACP_SIMPLEDOWN_SELECT_CATEGORY_REQUIRED}</option>
+    <!-- BEGIN categories -->
+    <option value="{categories.ID}">{categories.NAME}</option>
+    <!-- END categories -->
+    <!-- IF not categories -->
+    <option value="" disabled>{L_ACP_SIMPLEDOWN_NO_CATEGORIES_YET}</option>
+    <!-- ENDIF -->
+</select>
                 </dd>
             </dl>
             <!-- Visibilidade individual -->

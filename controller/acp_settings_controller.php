@@ -45,18 +45,18 @@ class acp_settings_controller
         $php_ext,
         $table_prefix
     ) {
-        $this->config = $config;
-        $this->db = $db;
-        $this->language = $language;
-        $this->log = $log;
-        $this->request = $request;
-        $this->template = $template;
-        $this->user = $user;
-        $this->path_helper = $path_helper;
-        $this->root_path = $root_path;
-        $this->php_ext = $php_ext;
+        $this->config           = $config;
+        $this->db               = $db;
+        $this->language         = $language;
+        $this->log              = $log;
+        $this->request          = $request;
+        $this->template         = $template;
+        $this->user             = $user;
+        $this->path_helper      = $path_helper;
+        $this->root_path        = $root_path;
+        $this->php_ext          = $php_ext;
         $this->categories_table = $table_prefix . 'simpledown_categories';
-        $this->files_table = $table_prefix . 'simpledown_files';
+        $this->files_table      = $table_prefix . 'simpledown_files';
     }
 
     public function set_u_action($u_action)
@@ -64,9 +64,6 @@ class acp_settings_controller
         $this->u_action = $u_action;
     }
 
-    /**
-     * Método principal chamado pelo main_module
-     */
     public function handle()
     {
         // Salvar configurações gerais
@@ -74,18 +71,17 @@ class acp_settings_controller
             if (!check_form_key('mundophpbb_simpledown')) {
                 trigger_error('FORM_INVALID', E_USER_WARNING);
             }
-
-            $max_upload_mb = max(1, $this->request->variable('max_upload_size', 100));
-            $short_desc_limit = max(50, $this->request->variable('short_desc_limit', 150));
+            $max_upload_mb      = max(1, $this->request->variable('max_upload_size', 100));
+            $short_desc_limit   = max(50, $this->request->variable('short_desc_limit', 150));
             $private_categories = $this->request->variable('private_categories', [0]);
             $default_is_private = $this->request->variable('default_is_private', 0);
-            $site_theme = $this->request->variable('site_theme', 'light'); // Novo: tema do index
+            $site_theme         = $this->request->variable('site_theme', 'light');
 
             $this->config->set('simpledown_max_upload_size', $max_upload_mb);
             $this->config->set('simpledown_short_desc_limit', $short_desc_limit);
             $this->config->set('simpledown_private_categories', serialize($private_categories));
             $this->config->set('simpledown_default_is_private', $default_is_private);
-            $this->config->set('simpledown_theme', $site_theme); // Salva o tema escolhido
+            $this->config->set('simpledown_theme', $site_theme);
 
             trigger_error($this->language->lang('ACP_SIMPLEDOWN_CONFIG_SAVED') . adm_back_link($this->u_action . '&mode=settings'));
         }
@@ -129,12 +125,9 @@ class acp_settings_controller
         $this->prepare_template();
     }
 
-    /**
-     * Prepara as variáveis do template (categorias, thumbnails, configs)
-     */
     protected function prepare_template()
     {
-        // Listar thumbnails existentes
+        // Thumbnails existentes
         $thumbs_dir = $this->root_path . 'ext/mundophpbb/simpledown/files/thumbs/';
         $thumbs_list = [];
         if (is_dir($thumbs_dir)) {
@@ -148,14 +141,11 @@ class acp_settings_controller
             }
             sort($thumbs_list);
         }
-
         foreach ($thumbs_list as $thumb) {
-            $this->template->assign_block_vars('thumbs', [
-                'FILENAME' => $thumb,
-            ]);
+            $this->template->assign_block_vars('thumbs', ['FILENAME' => $thumb]);
         }
 
-        // Listar categorias
+        // Categorias
         $sql = 'SELECT * FROM ' . $this->categories_table . ' ORDER BY name';
         $result = $this->db->sql_query($sql);
         while ($row = $this->db->sql_fetchrow($result)) {
@@ -170,30 +160,23 @@ class acp_settings_controller
         }
         $this->db->sql_freeresult($result);
 
-        // Carrega as categorias privadas salvas (array)
+        // Configurações
         $private_categories = unserialize($this->config['simpledown_private_categories'] ?? serialize([]));
-
-        // Carrega a visibilidade padrão para novos arquivos
         $default_is_private = (int)($this->config['simpledown_default_is_private'] ?? 0);
-
-        // Carrega o tema atual do index (padrão: light)
-        $site_theme = $this->config['simpledown_theme'] ?? 'light';
+        $site_theme         = $this->config['simpledown_theme'] ?? 'light';
 
         $this->template->assign_vars([
-            'MAX_UPLOAD_SIZE'       => $this->config['simpledown_max_upload_size'] ?? 100,
-            'SHORT_DESC_LIMIT'      => $this->config['simpledown_short_desc_limit'] ?? 150,
-            'PRIVATE_CATEGORIES'    => $private_categories,
-            'DEFAULT_IS_PRIVATE'    => $default_is_private,
-            'SITE_THEME'            => $site_theme, // Passa o tema escolhido para o template
-            'U_ACTION'              => $this->u_action . '&mode=settings',
-            'THUMBS_DIR'            => $this->path_helper->get_web_root_path() . 'ext/mundophpbb/simpledown/files/thumbs/',
-            'S_THUMBS_EXIST'        => !empty($thumbs_list),
+            'MAX_UPLOAD_SIZE'     => $this->config['simpledown_max_upload_size'] ?? 100,
+            'SHORT_DESC_LIMIT'    => $this->config['simpledown_short_desc_limit'] ?? 150,
+            'PRIVATE_CATEGORIES'  => $private_categories,
+            'DEFAULT_IS_PRIVATE'  => $default_is_private,
+            'SITE_THEME'          => $site_theme,
+            'U_ACTION'            => $this->u_action . '&mode=settings',
+            'THUMBS_DIR'          => $this->path_helper->get_web_root_path() . 'ext/mundophpbb/simpledown/files/thumbs/',
+            'S_THUMBS_EXIST'      => !empty($thumbs_list),
         ]);
     }
 
-    /**
-     * Upload de novo arquivo
-     */
     protected function upload_file()
     {
         $file = $this->request->file('file_upload');
@@ -212,6 +195,7 @@ class acp_settings_controller
         $original_filename = $file['name'];
         $filename = preg_replace('/[^a-zA-Z0-9_.-]/', '_', $original_filename);
         $dest = $upload_dir . $filename;
+
         $counter = 1;
         $base_name = pathinfo($filename, PATHINFO_FILENAME);
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
@@ -228,16 +212,58 @@ class acp_settings_controller
             return;
         }
 
+        // Calcular hash para verificação de duplicidade
         $hash = md5_file($dest);
 
-        $name = $this->request->variable('file_name', $original_filename, true);
-        $desc_short = $this->request->variable('file_desc_short', '', true);
-        $desc_full = $this->request->variable('file_desc', '', true);
-        $version = $this->request->variable('file_version', '', true);
-        $cat = $this->request->variable('category', 0);
-        $selected_thumb = $this->request->variable('existing_thumb', '', true);
-        $is_private = $this->request->variable('is_private', 0);
+        // Verificar se já existe um arquivo com o mesmo conteúdo
+        $sql = 'SELECT file_name, file_realname FROM ' . $this->files_table . ' WHERE file_hash = \'' . $this->db->sql_escape($hash) . '\' LIMIT 1';
+        $result = $this->db->sql_query($sql);
+        $existing = $this->db->sql_fetchrow($result);
+        $this->db->sql_freeresult($result);
 
+        if ($existing) {
+            // Arquivo duplicado: apaga o que acabou de ser enviado
+            @unlink($dest);
+
+            $this->template->assign_vars([
+                'ERROR_MESSAGE' => $this->language->lang(
+                    'ACP_SIMPLEDOWN_FILE_DUPLICATE_DETECTED',
+                    $existing['file_name'],
+                    $existing['file_realname']
+                ),
+            ]);
+            return;
+        }
+
+        // Dados do formulário
+        $name           = $this->request->variable('file_name', $original_filename, true);
+        $desc_short     = $this->request->variable('file_desc_short', '', true);
+        $desc_full      = $this->request->variable('file_desc', '', true);
+        $version        = $this->request->variable('file_version', '', true);
+        $cat            = $this->request->variable('category', 0);
+        $selected_thumb = $this->request->variable('existing_thumb', '', true);
+        $is_private     = $this->request->variable('is_private', 0);
+
+        // Validação obrigatória de categoria
+        if ($cat <= 0) {
+            $sql = 'SELECT COUNT(*) AS total FROM ' . $this->categories_table;
+            $result = $this->db->sql_query($sql);
+            $row = $this->db->sql_fetchrow($result);
+            $this->db->sql_freeresult($result);
+
+            $error_msg = ($row['total'] == 0)
+                ? $this->language->lang('ACP_SIMPLEDOWN_NO_CATEGORIES_EXIST')
+                : $this->language->lang('ACP_SIMPLEDOWN_CATEGORY_REQUIRED');
+
+            @unlink($dest);
+
+            $this->template->assign_vars([
+                'ERROR_MESSAGE' => $error_msg,
+            ]);
+            return;
+        }
+
+        // Inserir no banco
         $sql_data = [
             'file_name'       => $name,
             'file_realname'   => $filename,
@@ -262,11 +288,9 @@ class acp_settings_controller
         ]);
     }
 
-    /**
-     * Upload avulso de miniatura
-     */
     protected function upload_thumb()
     {
+        // ... (mantido exatamente como estava, sem alterações necessárias)
         $file = $this->request->file('thumb_upload');
         if (empty($file['name'])) {
             $this->template->assign_vars([
@@ -281,8 +305,8 @@ class acp_settings_controller
         }
 
         $original_name = $file['name'];
-        $safe_name = preg_replace('/[^a-zA-Z0-9_.-]/', '_', $original_name);
-        $destination = $thumbs_dir . $safe_name;
+        $safe_name     = preg_replace('/[^a-zA-Z0-9_.-]/', '_', $original_name);
+        $destination   = $thumbs_dir . $safe_name;
 
         if (file_exists($destination)) {
             $this->template->assign_vars([
@@ -291,8 +315,8 @@ class acp_settings_controller
         }
 
         $allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $mime = finfo_file($finfo, $file['tmp_name']);
+        $finfo   = finfo_open(FILEINFO_MIME_TYPE);
+        $mime    = finfo_file($finfo, $file['tmp_name']);
         finfo_close($finfo);
 
         if (!in_array($mime, $allowed)) {
@@ -314,12 +338,11 @@ class acp_settings_controller
         }
     }
 
-    /**
-     * Adicionar nova categoria
-     */
     protected function add_category()
     {
-        $cat_name = $this->request->variable('cat_name', '', true);
+        // ... (mantido como estava)
+        $cat_name = trim($this->request->variable('cat_name', '', true));
+
         if (empty($cat_name)) {
             trigger_error($this->language->lang('ACP_SIMPLEDOWN_NO_CATEGORY_NAME') . adm_back_link($this->u_action . '&mode=settings'), E_USER_WARNING);
         }
@@ -336,14 +359,13 @@ class acp_settings_controller
         $this->db->sql_query($sql);
 
         $this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_SIMPLEDOWN_CAT_ADDED', false, [$cat_name]);
+
         trigger_error($this->language->lang('ACP_SIMPLEDOWN_CAT_ADDED') . adm_back_link($this->u_action . '&mode=settings'));
     }
 
-    /**
-     * Excluir categoria
-     */
     protected function delete_category($id)
     {
+        // ... (mantido como estava)
         $sql = 'SELECT name FROM ' . $this->categories_table . ' WHERE id = ' . (int)$id;
         $result = $this->db->sql_query($sql);
         $row = $this->db->sql_fetchrow($result);
@@ -355,15 +377,14 @@ class acp_settings_controller
 
         $cat_name = $row['name'];
 
-        // Move arquivos para "Sem Categoria"
         $sql = 'UPDATE ' . $this->files_table . ' SET category_id = 0 WHERE category_id = ' . (int)$id;
         $this->db->sql_query($sql);
 
-        // Exclui a categoria
         $sql = 'DELETE FROM ' . $this->categories_table . ' WHERE id = ' . (int)$id;
         $this->db->sql_query($sql);
 
         $this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_SIMPLEDOWN_CAT_DELETED', false, [$cat_name]);
+
         trigger_error($this->language->lang('ACP_SIMPLEDOWN_CAT_DELETED') . adm_back_link($this->u_action . '&mode=settings'));
     }
 }
