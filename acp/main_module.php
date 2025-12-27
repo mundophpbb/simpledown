@@ -46,17 +46,13 @@ class main_module
                 break;
 
             case 'tools':
-                $this->tpl_name = 'acp_simpledown_tools';
+                $this->tpl_name   = 'acp_simpledown_tools';
                 $this->page_title = $user->lang('ACP_SIMPLEDOWN_TOOLS');
 
                 /** @var \mundophpbb\simpledown\controller\acp_tools_controller $controller */
                 $controller = $phpbb_container->get('mundophpbb.simpledown.acp_tools_controller');
                 $controller->set_u_action($this->u_action);
                 $controller->handle();
-                break;
-
-            default:
-                redirect(append_sid("{$phpbb_admin_path}index.$php_ext", "i=simpledown&mode=settings"));
                 break;
         }
     }
