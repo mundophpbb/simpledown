@@ -1,9 +1,9 @@
 {
-    "name": "mundophpbb/simpledown",
+    "name": "mundophpbb/topictranslatesingle",
     "type": "phpbb-extension",
-    "description": "Simple Download System with ACP for uploads and categories",
+    "description": "Tradução individual de posts via GTranslate",
     "homepage": "https://mundophpbb.com.br",
-    "version": "3.0.0",
+    "version": "1.1.0 Beta",
     "license": "GPL-2.0-or-later",
     "authors": [
         {
@@ -21,7 +21,7 @@
         "phpbb/phpbb-core": "dev-master"
     },
     "extra": {
-        "display-name": "Simple Download System",
+        "display-name": "Topic Translate Single",
         "soft-require": {
             "phpbb/phpbb": ">=3.3.0,<4.0.0@dev"
         }
