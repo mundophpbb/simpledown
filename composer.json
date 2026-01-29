@@ -1,0 +1,29 @@
+{
+    "name": "mundophpbb/simpledown",
+    "type": "phpbb-extension",
+    "description": "Simple Download System with ACP for uploads and categories",
+    "homepage": "https://mundophpbb.com.br",
+    "version": "3.0.0",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Chico Gois",
+            "email": "chicogois@gmail.com",
+            "homepage": "https://mundophpbb.com.br",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "composer/installers": "^1.0 || ^2.0"
+    },
+    "require-dev": {
+        "phpbb/phpbb-core": "dev-master"
+    },
+    "extra": {
+        "display-name": "Simple Download System",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.3.0,<4.0.0@dev"
+        }
+    }
+}
