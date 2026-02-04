@@ -1,5 +1,5 @@
 <?php
-namespace mundophpbb\custom404;
+namespace mundophpbb\simpledown;
 
 class ext extends \phpbb\extension\base
 {
